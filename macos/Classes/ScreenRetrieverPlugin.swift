@@ -44,6 +44,9 @@ public class ScreenRetrieverPlugin: NSObject, FlutterPlugin {
         case "getAllDisplays":
             getAllDisplays(call, result: result)
             break
+        case "getScreenWithMouse":
+            getScreenWithMouse(call, result: result)
+            break
         default:
             result(FlutterMethodNotImplemented)
         }
@@ -90,6 +93,20 @@ public class ScreenRetrieverPlugin: NSObject, FlutterPlugin {
             "x": mouseLocation.x,
             "y": visibleHeight - mouseLocation.y,
         ]
+        result(resultData)
+    }
+    
+    public func getScreenWithMouse(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+      let mouseLocation = NSEvent.mouseLocation
+      let screens = NSScreen.screens
+      let screenWithMouse = (screens.first { NSMouseInRect(mouseLocation, $0.frame, false) })
+
+//      return screenWithMouse
+        guard let screen = screenWithMouse else {
+            result(nil)
+            return
+        }
+        let resultData: NSDictionary = _screenToDict(screen)
         result(resultData)
     }
     
