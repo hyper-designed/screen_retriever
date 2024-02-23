@@ -191,7 +191,7 @@ void ScreenRetrieverPlugin::GetScreenWithMouse(
     const flutter::MethodCall<flutter::EncodableValue>& method_call,
     std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
   POINT ptZero = {0, 0};
-  HMONITOR monitor = MonitorFromPoint(ptZero, MONITOR_DEFAULTTOPRIMARY);
+  HMONITOR monitor = MonitorFromPoint(ptZero, MONITOR_DEFAULTTONEAREST);
   flutter::EncodableMap display = MonitorToEncodableMap(monitor);
   result->Success(flutter::EncodableValue(display));
 }
