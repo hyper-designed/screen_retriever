@@ -40,6 +40,9 @@ class ScreenRetrieverPlugin : public flutter::Plugin {
   void ScreenRetrieverPlugin::GetPrimaryDisplay(
       const flutter::MethodCall<flutter::EncodableValue>& method_call,
       std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
+  void ScreenRetrieverPlugin::GetScreenWithMouse(
+      const flutter::MethodCall<flutter::EncodableValue>& method_call,
+      std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
   void ScreenRetrieverPlugin::GetAllDisplays(
       const flutter::MethodCall<flutter::EncodableValue>& method_call,
       std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
@@ -184,6 +187,15 @@ void ScreenRetrieverPlugin::GetPrimaryDisplay(
   result->Success(flutter::EncodableValue(display));
 }
 
+void ScreenRetrieverPlugin::GetScreenWithMouse(
+    const flutter::MethodCall<flutter::EncodableValue>& method_call,
+    std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
+  POINT ptZero = {0, 0};
+  HMONITOR monitor = MonitorFromPoint(ptZero, MONITOR_DEFAULTTOPRIMARY);
+  flutter::EncodableMap display = MonitorToEncodableMap(monitor);
+  result->Success(flutter::EncodableValue(display));
+}
+
 void ScreenRetrieverPlugin::GetAllDisplays(
     const flutter::MethodCall<flutter::EncodableValue>& method_call,
     std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
@@ -205,6 +217,8 @@ void ScreenRetrieverPlugin::HandleMethodCall(
     GetCursorScreenPoint(method_call, std::move(result));
   } else if (method_call.method_name().compare("getPrimaryDisplay") == 0) {
     GetPrimaryDisplay(method_call, std::move(result));
+  } else if (method_call.method_name().compare("getScreenWithMouse") == 0) {
+    GetScreenWithMouse(method_call, std::move(result));
   } else if (method_call.method_name().compare("getAllDisplays") == 0) {
     GetAllDisplays(method_call, std::move(result));
   } else {
