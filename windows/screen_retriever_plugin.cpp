@@ -203,7 +203,10 @@ void ScreenRetrieverPlugin::GetScreenWithMouse(
   x = cursorPos.x / device_pixel_ratio * 1.0f;
   y = cursorPos.y / device_pixel_ratio * 1.0f;
 
-  POINT ptZero = {x, y};
+  LONG ix = static_cast<LONG>(x);
+  LONG iy = static_cast<LONG>(y);
+
+  POINT ptZero = {ix, iy};
 
   HMONITOR monitor = MonitorFromPoint(ptZero, MONITOR_DEFAULTTONEAREST);
   flutter::EncodableMap display = MonitorToEncodableMap(monitor);
