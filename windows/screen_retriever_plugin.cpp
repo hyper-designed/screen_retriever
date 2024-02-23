@@ -190,7 +190,21 @@ void ScreenRetrieverPlugin::GetPrimaryDisplay(
 void ScreenRetrieverPlugin::GetScreenWithMouse(
     const flutter::MethodCall<flutter::EncodableValue>& method_call,
     std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
-  POINT ptZero = {0, 0};
+
+  const flutter::EncodableMap& args =
+          std::get<flutter::EncodableMap>(*method_call.arguments());
+
+  double device_pixel_ratio =
+      std::get<double>(args.at(flutter::EncodableValue("devicePixelRatio")));
+
+  double x, y;
+  POINT cursorPos;
+  GetCursorPos(&cursorPos);
+  x = cursorPos.x / device_pixel_ratio * 1.0f;
+  y = cursorPos.y / device_pixel_ratio * 1.0f;
+
+  POINT ptZero = {x, y};
+
   HMONITOR monitor = MonitorFromPoint(ptZero, MONITOR_DEFAULTTONEAREST);
   flutter::EncodableMap display = MonitorToEncodableMap(monitor);
   result->Success(flutter::EncodableValue(display));

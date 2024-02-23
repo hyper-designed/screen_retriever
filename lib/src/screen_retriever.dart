@@ -78,8 +78,11 @@ class ScreenRetriever {
   }
 
   Future<Display?> getScreenWithMouse() async {
+    final Map<String, dynamic> arguments = {
+      'devicePixelRatio': devicePixelRatio,
+    };
     final Map<dynamic, dynamic>? resultData =
-        await _channel.invokeMethod('getScreenWithMouse');
+        await _channel.invokeMethod('getScreenWithMouse', arguments);
     if(resultData == null) return null;
     return Display.fromJson(Map<String, dynamic>.from(resultData));
   }
