@@ -107,9 +107,16 @@ flutter::EncodableMap MonitorToEncodableMap(HMONITOR monitor) {
   double visibleX = round((info.rcWork.left) / scale_factor);
   double visibleY = round((info.rcWork.top) / scale_factor);
 
+  RECT displayRect = info.rcMonitor;
+  double displayWidth = static_cast<double>(displayRect.right - displayRect.left);
+  double displayHeight = static_cast<double>(displayRect.bottom - displayRect.top);
+  double displayX = static_cast<double>(displayRect.left);
+  double displayY = static_cast<double>(displayRect.top);
+
   flutter::EncodableMap size = flutter::EncodableMap();
   flutter::EncodableMap visibleSize = flutter::EncodableMap();
   flutter::EncodableMap visiblePosition = flutter::EncodableMap();
+  flutter::EncodableMap displayRect = flutter::EncodableMap();
 
   size[flutter::EncodableValue("width")] =
       flutter::EncodableValue(static_cast<double>(
@@ -128,6 +135,15 @@ flutter::EncodableMap MonitorToEncodableMap(HMONITOR monitor) {
   visiblePosition[flutter::EncodableValue("y")] =
       flutter::EncodableValue(visibleY);
 
+  displayRect[flutter::EncodableValue("x")] =
+        flutter::EncodableValue(displayX);
+  displayRect[flutter::EncodableValue("y")] =
+        flutter::EncodableValue(displayY);
+  displayRect[flutter::EncodableValue("width")] =
+      flutter::EncodableValue(displayWidth);
+  displayRect[flutter::EncodableValue("height")] =
+      flutter::EncodableValue(displayHeight);
+
   flutter::EncodableMap display = flutter::EncodableMap();
 
   display[flutter::EncodableValue("id")] = flutter::EncodableValue(0);
@@ -138,6 +154,8 @@ flutter::EncodableMap MonitorToEncodableMap(HMONITOR monitor) {
       flutter::EncodableValue(visibleSize);
   display[flutter::EncodableValue("visiblePosition")] =
       flutter::EncodableValue(visiblePosition);
+  display[flutter::EncodableValue("displayRect")] =
+      flutter::EncodableValue(displayRect);
   display[flutter::EncodableValue("scaleFactor")] =
       flutter::EncodableValue(scale_factor);
 

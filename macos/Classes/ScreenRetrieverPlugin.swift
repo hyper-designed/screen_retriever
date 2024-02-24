@@ -61,6 +61,12 @@ public class ScreenRetrieverPlugin: NSObject, FlutterPlugin {
             "width": screen.frame.width,
             "height": screen.frame.height,
         ]
+        let displayRect: NSDictionary = [
+            "x": screen.frame.x,
+            "y": screen.frame.y,
+            "width": screen.frame.width,
+            "height": screen.frame.height,
+        ]
         let visiblePosition: NSDictionary = [
             "x": screen.visibleFrame.topLeft.x,
             "y": screen.visibleFrame.topLeft.y,

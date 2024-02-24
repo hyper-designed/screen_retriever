@@ -9,6 +9,7 @@ class Display {
   final Offset? visiblePosition;
   final Size? visibleSize;
   final num? scaleFactor;
+  final Rect? displayRect;
 
   Display({
     required this.id,
@@ -17,11 +18,13 @@ class Display {
     this.visiblePosition,
     this.visibleSize,
     this.scaleFactor,
+    this.displayRect,
   });
 
   factory Display.fromJson(Map<String, dynamic> json) {
     Offset? visiblePosition;
     Size? visibleSize;
+    Rect? displayRect;
 
     if (json['visiblePosition'] != null) {
       visiblePosition = Offset(
@@ -36,6 +39,15 @@ class Display {
       );
     }
 
+    if (json['displayRect'] != null) {
+      displayRect = Rect.fromLTWH(
+        json['displayRect']['x'],
+        json['displayRect']['y'],
+        json['displayRect']['width'],
+        json['displayRect']['height'],
+      );
+    }
+
     return Display(
       id: json['id'],
       name: json['name'],
@@ -46,6 +58,7 @@ class Display {
       visiblePosition: visiblePosition,
       visibleSize: visibleSize,
       scaleFactor: json.containsKey('scaleFactor') ? json['scaleFactor'] : null,
+      displayRect: displayRect,
     );
   }
 
@@ -70,6 +83,14 @@ class Display {
             }
           : null,
       'scaleFactor': scaleFactor,
+      'displayRect': displayRect != null
+          ? {
+              'x': displayRect!.left,
+              'y': displayRect!.top,
+              'width': displayRect!.width,
+              'height': displayRect!.height,
+            }
+          : null,
     };
   }
 }

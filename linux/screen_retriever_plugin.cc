@@ -36,6 +36,12 @@ FlValue* monitor_to_flvalue(GdkMonitor* monitor) {
   fl_value_set_string_take(size, "width", fl_value_new_float(frame.width));
   fl_value_set_string_take(size, "height", fl_value_new_float(frame.height));
 
+  auto display_rect = fl_value_new_map();
+  fl_value_set_string_take(display_rect, "x", fl_value_new_float(frame.x));
+  fl_value_set_string_take(display_rect, "y", fl_value_new_float(frame.y));
+  fl_value_set_string_take(display_rect, "width", fl_value_new_float(frame.width));
+  fl_value_set_string_take(display_rect, "height", fl_value_new_float(frame.height));
+
   GdkRectangle workarea_rect;
   gdk_monitor_get_workarea(monitor, &workarea_rect);
 
@@ -62,6 +68,7 @@ FlValue* monitor_to_flvalue(GdkMonitor* monitor) {
   fl_value_set_string_take(value, "size", size);
   fl_value_set_string_take(value, "visibleSize", visible_size);
   fl_value_set_string_take(value, "visiblePosition", visible_position);
+  fl_value_set_string_take(value, "displayRect", display_rect);
   fl_value_set_string_take(value, "scaleFactor",
                            fl_value_new_float(scale_factor));
 
