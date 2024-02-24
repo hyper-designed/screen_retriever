@@ -10,6 +10,7 @@ class Display {
   final Size? visibleSize;
   final num? scaleFactor;
   final Rect? displayRect;
+  final Rect? visibleRect;
 
   Display({
     required this.id,
@@ -19,7 +20,14 @@ class Display {
     this.visibleSize,
     this.scaleFactor,
     this.displayRect,
-  });
+  }): visibleRect = visiblePosition != null && visibleSize != null
+      ? Rect.fromLTWH(
+          visiblePosition.dx,
+          visiblePosition.dy,
+          visibleSize.width,
+          visibleSize.height,
+        )
+      : null;
 
   factory Display.fromJson(Map<String, dynamic> json) {
     Offset? visiblePosition;
