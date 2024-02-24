@@ -107,11 +107,11 @@ flutter::EncodableMap MonitorToEncodableMap(HMONITOR monitor) {
   double visibleX = round((info.rcWork.left) / scale_factor);
   double visibleY = round((info.rcWork.top) / scale_factor);
 
-  RECT displayRect = info.rcMonitor;
-  double displayWidth = static_cast<double>(displayRect.right - displayRect.left);
-  double displayHeight = static_cast<double>(displayRect.bottom - displayRect.top);
-  double displayX = static_cast<double>(displayRect.left);
-  double displayY = static_cast<double>(displayRect.top);
+  RECT monitorRect = info.rcMonitor;
+  double displayWidth = static_cast<double>(monitorRect.right - monitorRect.left);
+  double displayHeight = static_cast<double>(monitorRect.bottom - monitorRect.top);
+  double displayX = static_cast<double>(monitorRect.left);
+  double displayY = static_cast<double>(monitorRect.top);
 
   flutter::EncodableMap size = flutter::EncodableMap();
   flutter::EncodableMap visibleSize = flutter::EncodableMap();
